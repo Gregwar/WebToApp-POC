@@ -12,8 +12,8 @@ Requirements
 
 First, get the ZeroMQ library for both C/C++ and PHP :
 
-http://www.zeromq.org/intro:get-the-software
-http://www.zeromq.org/bindings:php
+* http://www.zeromq.org/intro:get-the-software
+* http://www.zeromq.org/bindings:php
 
 Compiling and running the app
 -----------------------------
