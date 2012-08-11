@@ -1,0 +1,19 @@
+* {
+    margin:0;
+    padding:0;
+}
+
+body {
+    width:900px;
+    margin:auto;
+    font-family:Sans-serif;
+}
+
+h1 {
+    margin-bottom:20px;
+}
+
+canvas {
+    width:900px;
+    height:500px;
+}
