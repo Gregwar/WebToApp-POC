@@ -15,6 +15,8 @@ First, get the ZeroMQ library for both C/C++ and PHP :
 * http://www.zeromq.org/intro:get-the-software
 * http://www.zeromq.org/bindings:php
 
+You'll need to setup a web server (for instance Apache) which can executes PHP scripts
+
 Compiling and running the app
 -----------------------------
 
