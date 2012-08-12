@@ -6,8 +6,8 @@
 
 #include "zhelpers.h"
 
-volatile double X;
-volatile double Y;
+volatile double cX, cY;
+volatile double X, Y;
 
 /**
  * Thread de communication
@@ -24,6 +24,11 @@ void *comThread(void *data)
 
         if (strcmp(command, "getPosition") == 0) {
             sprintf(response, "%g %g", X, Y);
+        } else if (strcmp(command, "setCenter") == 0) {
+            char *position = s_recv(server);
+            sscanf(position, "%lf %lf", &cX, &cY);
+            sprintf(response, "Center changed to %g,%g", cX, cY);
+            free(position);
         } else {
             sprintf(response, "Unknown command");
         }
@@ -41,11 +46,13 @@ void *comThread(void *data)
 void calculate()
 {
     double t = 0;
+    cX = 0;
+    cY = 0;
 
     while (1) {
         t += 0.03;
-        X = cos(t) * 10;
-        Y = sin(t) * 10;
+        X = cX + cos(t) * 50;
+        Y = cY + sin(t) * 50;
         usleep(50000);
     }
 }
