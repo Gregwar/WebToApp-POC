@@ -46,13 +46,13 @@ void *comThread(void *data)
 void calculate()
 {
     double t = 0;
-    cX = 0;
-    cY = 0;
+    cX = 44.834448;
+    cY = -0.579185;
 
     while (1) {
         t += 0.03;
-        X = cX + cos(t) * 50;
-        Y = cY + sin(t) * 50;
+        X = cX + cos(t) * 0.04;
+        Y = cY + sin(t) * 0.04;
         usleep(50000);
     }
 }

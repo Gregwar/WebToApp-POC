@@ -1,35 +1,5 @@
 var ajax = null;
-var X = null, Y = null;
-var goalX = 0, goalY = 0;
-
-function drawCircle(x, y)
-{
-    canvas = $('canvas')[0];
-    context = canvas.getContext('2d');
-    context.clearRect(0, 0, 900, 500);
-    context.fillStyle = '#000';
-    context.beginPath();
-    context.arc(450 + parseFloat(x), 250 + parseFloat(y), 5, 0, Math.PI*2, true);
-    context.closePath();
-    context.fill();
-
-    context.strokeStyle = '#aaa';
-    context.moveTo(0, 250);
-    context.lineTo(900, 250);
-    context.moveTo(450, 0);
-    context.lineTo(450, 500);
-    context.stroke();
-}
-
-function smooth()
-{
-    if (X != null && Y != null) {
-        X = 0.9*X + 0.1*goalX;
-        Y = 0.9*Y + 0.1*goalY;
-
-        drawCircle(X, Y);
-    }
-}
+var marker;
 
 function update()
 {
@@ -39,28 +9,30 @@ function update()
 
     ajax = $.getJSON('getposition.php', function(response) {
         ajax = null;
-
-        goalX = response.x;
-        goalY = response.y;
-
-        if (X == null) {
-            X = goalX;
-        }
-
-        if (Y == null) {
-            Y = goalY;
-        }
+        marker.setPosition(new google.maps.LatLng(response.lat, response.lng));
     });
 }
 
 $(document).ready(function() {
-    setInterval(update, 100);
-    setInterval(smooth, 10);
+    var myLatlng = new google.maps.LatLng(44.834448,-0.579185);
 
-    $('canvas').click(function(e) {
-        var mouseX = (e.pageX - $(this).offset().left)-450;
-        var mouseY = (e.pageY - $(this).offset().top)-250;
+    var mapOptions = {
+      zoom: 12,
+      center: myLatlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
 
-        $.get('setcenter.php?x='+mouseX+'&y='+mouseY);
+    var map = new google.maps.Map($('.map')[0], mapOptions);
+
+    marker = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+        title: 'Hello'
     });
+
+    google.maps.event.addListener(map, 'click', function(e) {
+        $.get('setcenter.php?lat='+e.latLng.lat()+'&lng='+e.latLng.lng());
+    });
+    
+    setInterval(update, 100);
 });
